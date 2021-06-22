@@ -1,0 +1,133 @@
+# Laboratório 1.3: Programação com Sockets TCP e UDP com Python
+
+## Identificação
+
+* Aluno: "coloque aqui o seu nome"
+
+## Formato das respostas
+
+Exceto quando informando explicitamente, todos os resultados devem ser formatados usando a formatação de código no Markdown, conforme já feito nos laboratórios anteriores. Respostas em texto livre devem ser escritas em **texto normal**, sem formatação.
+
+* Documentação do formato de tabelas no Markdown Github: <https://docs.github.com/en/github/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables>
+
+Todo o código produzido deve ser colocado no diretório `python`. Dentro desse diretório, você poderá utilizar a organização que preferir.
+
+
+## Requisitos mínimos de entrega deste relatório
+
+Conforme indicado no plano da disciplina, para obter nota mínima de 6,0 do relatório será necessário que ele atenda a **todos** os requisitos abaixo indicados:
+
+1. Todas as tarefas na seção "Resultados" devem ser respondidas e devem seguir o formato solicitado.
+2. Não deve haver qualquer tipo de cópia deste relatório com o que outro aluno. Os experimentos e o relatório são individuais.
+3. O seu relatório deverá ser submetido pelo Github Classroom.
+
+A complementação da nota pela avaliação qualitativa do relatório, considerará as respostas das questões abertas (em texto livre) e **sobretudo** o código produzido.
+
+A seção [**"Feedback"**](#Feedback) ao fim deste relatório conterá uma descrição da avaliação do professor.
+
+
+## Resultados
+
+### Parte A
+
+O seu código deverá ser colocado no diretório `python/cliente`, caso tenha implementado em Python. Não esqueça de documentar o uso do seu programa no arquivo (`README.md`)[README.md].
+
+1. (**ref. A.4.1 a 4**) Descreva os erros/problemas que ocorrem na execução do seu cliente, caso o servidor não tenha o comportamento esperado descrito nos cenários. Em cada uma das respostas você deverá indicar: (i) o problema percebido no cliente em termos de estado do socket (entre os estados possíveis de um socket); (ii) como o seu programa (seu código) percebe o problema e qual exceção é gerada pela biblioteca de sockets; (iii) o comportamento você implementou no seu código para reagir a esse problema (exemplo: *"escreve uma mensagem de erro e termina o programa"*).
+
+   * Problema **E1**
+   * Problema **E2**
+   * Problema **E3**
+   * Problema **E4**
+
+### Parte B
+
+O seu código deverá ser colocado no diretório `python/servidor`, caso tenha implementado em Python.
+
+1. (**ref. B.3**) Descreva os tratamento de erros e problemas feitos no código servidor e comente eventuais diferentes entre o feito no cliente. **Observe que** em caso de problemas na comunicação com o cliente, e possível término, o servidor deverá continuar executando e poder aceitar conexões de novos clientes (sempre um cliente por vez).
+
+
+### Parte C: meucast
+
+Nesta atividade você deverá desenvolver um cliente e servidor, chamados de **`meucast`**, que simularão um protocolo de execução de mídia, misturando características do protocolo do Chromecast com do RTP/RTCP.
+
+Todo o seu código deverá ficar no diretório `python/meucast` (nos respectivos diretórios `cliente` e `servidor`), ou 
+
+O protocolo é bastante simples e por ele, um cliente deverá ser capaz de:
+
+1. Encontrar um dispositivo (servidor) na sua rede local, disponível para responder aos comandos remotos (**DESCOBERTA**).
+2. Solicitar a execução dos comandos remotos no servidor que deverá (**EXECUÇÃO**):
+
+   * Abrir um arquivo local textual indicado pelo cliente
+   * Exibir uma a uma as linhas do arquivo local, com um intervalo de tempo pré-estabelecido
+   * Interromper e continuar a exibição das linhas
+   * Pular para frente e para trás as linhas a serem exibidas.
+   * Parar a exibição das linhas.
+ 
+As funcionalidades indicadas em (2) simulam a manipulação de uma midia (audio ou video) em um servidor executor de midia. Nosso "executor de midia", entretanto, apenas mostra o conteúdo de um arquivo de texto, linha a linha.
+ 
+Separaremos o protocolo em duas partes: DESCOBERTA e EXECUÇÃO, de acordo com as funcionalidades indicadas acima. No restante desta descrição, chamaremos o servidor simplesmente pelo nome TPLAY.
+
+#### Protocolos de DESCOBERTA
+
+O protocolo de DESCOBERTA é um protocolo pelo qual um cliente descobre se existe um servidor (uma instância de TPLAY) para execução na sua rede local em qual local (endereço IP e porta) este servidor (TPLAY) está. O TPLAY criará um socket servidor UDP esperando na porta **`11111`**. Essa porta **não** pode ser modificada.
+
+Um cliente desejando encontrar um TPLAY na rede local, enviará uma mensagem UDP para todas as estações da rede local na porta indicada. Para isso, o cliente deverá enviar uma mensagem para o endereço de broadcast da rede (`255.255.255.255`), a qual será respondida apenas pelo TPLAY, indicando o endereço IP e a porta em que o TPLAY está esperando o recebimento de comandos de execução.
+
+Todas as mensagens serão textuais, terminadas pelo caracter de nova linha (`\n`). No exemplo abaixo, consideramos que o TPLAY está disponível no IP `10.0.0.30` na porta `11112`. **Observe** que esse endereço e porta é aquele onde se encontra o servidor TCP responsável pela execução e descrito na seção seguinte.
+
+| Cliente    | TPLAY                   | Significado                                                          |
+| ---------- | ----------------------- | -------------------------------------------------------------------- |
+| `SEARCH`   | -                       | Enviada para endereço de broacast da rede para procurar por um TPLAY |
+| -          | `TPLAY 10.0.0.30 11112` | TPLAY responde a mensagem anterior com seu servidor TCP de execução  |
+
+
+#### Protocolo de EXECUÇÃO
+
+O protocolo de EXECUÇÃO determina como o TPLAY irá receber comandos de um cliente, uma vez que um cliente descobriu um servidor pelo protocolo discutido a seção anterior.
+
+O protocolo de EXECUÇÃO utilizará TCP, então a sua implementação do TPLAY deverá ter um socket servidor adicional apenas para responder comandos de um cliente.
+
+O "identificador de tmidia" é um nome que indica o nome do arquivo a ser reproduzido. Considere que o TPLAY procurará os arquivos dentro do diretório `tmidia/` da sua execução, onde eu já colocarei alguns arquivos de teste para auxiliar. Inicialmente, coloquei um arquivo `1.txt` (considere `1.txt` o nome dessa midia).
+
+| Cliente      | TPLAY        | Significado                                                                                   |
+| ------------ | ------------ | --------------------------------------------------------------------------------------------- |
+| `PLAY midia` |              | TPLAY inicia a exibição das linhas do arquivo textual `midia`                                 |
+| `PAUS`       |              | PAUSA: interrompe ou continua a exibição das linhas do arquivo textual                        |
+| `STOP`       |              | para a exibição do arquivo, fazendo com que só `PLAY` tenha algum efeito                      |
+| `BACK `      |              | retrocede a exibição do arquivo em 1 linha (pode estar em execução ou pausa)                  |
+| `BACK 10`    |              | retrocede a exibição no número indicado (no exemplo 10 linhas)                                |
+| `FORW `      |              | adianta a exibição do arquivo em 1 linha (pode estar em execução ou pausa)                    |
+| `FORW 10`    |              | adianta a exibição no número indicado (no exemplo 10 linhas)                                  |
+|              | `OK`         | indica para o cliente que o comando anterior foi executado com sucesso                        |
+|              | `NOK erro`   | indica para o cliente erro no comando anterior, indicando um texto (`erro`) com causa do erro |
+
+Uma mensagem `NOK` pode ser enviada em situações como:
+
+* `PLAY` para arquivo que não existe
+* `PAUS` sem que haja arquivo em exibição.
+
+#### Funcionamento do TPLAY
+
+Você **deve** adicionar um atraso na exibição de uma linha para outra. Eu sugiro colocar 0.1 segundos nos seus testes, e definir esse tempo em uma constante no inicio do programa. 
+
+Não é obrigatório, mas eu sugiro colocar uma segunda temporização a ser utilizada a cada 24 linhas: cada vez que o programa exibir linhas múltiplas de 24 utilizar essa temporização adicional. Utilize o próprio número de linhas como um parâmetro definido no início do programa (com valor default de 24). Com isso será possível fazer brincadeiras legais com o seu código.
+
+#### Precauções
+
+Tenha cuidado para não misturar o funcionamento da aplicação, referente à exibição do conteúdo, com a parte que implementa o protocolo. Separe-as o máximo possível. Por exemplo, coloque as funções de exibição em funções que podem ser chamadas de dentro do laço principal do seu programa. Isso facilitará em muito a sua tarefa.
+
+#### Simplificações
+
+* Não se preocupe em fazer o seu protocolo funcionar com dois clientes simultâneos.
+* Você pode implementar na linguagem de programação que preferir, desde que:
+   1. O seu código satisfaça aos requisitos do protocolo indicado, pois seu servidor deve conversar com o cliente de outro aluno, e vice-versa. O seu servidor deve conversar com um cliente/servidor **nc**.
+   2. A sua implementação não pode utilizar nenhuma construção, api ou framework para esconder o uso direto de sockets TCP/UDP.
+* Não precisa se preocupar com perda de mensagens no protocolo UDP, por exemplo, quando cliente faz uma pesquisa e não recebe resposta. Não é necessário implementar nenhuma temporização para envio de novas de mensagens de tempo em tempo.
+* A sua implementação do TPLAY pode ter dois códigos (arquivos) separados: um para cada protocolo. Isso vai evitar que você se preocupe com o funcionamento simultâneo dos dois protocolos, caso não tenha experiência em uso de threads em Python (ou em outra linguagem).
+
+<p id="Feedback" />
+
+## Feedback do Professor
+
+*Esta seção será escrita pelo professor ao final da avaliação do seu relatório*.
+
