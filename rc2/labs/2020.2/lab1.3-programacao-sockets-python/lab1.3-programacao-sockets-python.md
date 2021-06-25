@@ -45,8 +45,14 @@ O seu código deverá ser colocado no diretório `python/servidor`, caso tenha i
 
 1. (**ref. B.3**) Descreva os tratamento de erros e problemas feitos no código servidor e comente eventuais diferentes entre o feito no cliente. **Observe que** em caso de problemas na comunicação com o cliente, e possível término, o servidor deverá continuar executando e poder aceitar conexões de novos clientes (sempre um cliente por vez).
 
+<p id="meucast" />
 
 ### Parte C: meucast
+
+**Importante**: Acréscimos nesta descrição
+
+* [24/06] Seção [Estrutura Servidor e Sockets Não-bloqueantes](#estrutura-servidor-sockets-naobloqueantes)
+
 
 Nesta atividade você deverá desenvolver um cliente e servidor, chamados de **`meucast`**, que simularão um protocolo de execução de mídia, misturando características do protocolo do Chromecast com do RTP/RTCP.
 
@@ -124,6 +130,25 @@ Tenha cuidado para não misturar o funcionamento da aplicação, referente à ex
    2. A sua implementação não pode utilizar nenhuma construção, api ou framework para esconder o uso direto de sockets TCP/UDP.
 * Não precisa se preocupar com perda de mensagens no protocolo UDP, por exemplo, quando cliente faz uma pesquisa e não recebe resposta. Não é necessário implementar nenhuma temporização para envio de novas de mensagens de tempo em tempo.
 * A sua implementação do TPLAY pode ter dois códigos (arquivos) separados: um para cada protocolo. Isso vai evitar que você se preocupe com o funcionamento simultâneo dos dois protocolos, caso não tenha experiência em uso de threads em Python (ou em outra linguagem).
+
+<p id="estrutura-servidor-sockets-naobloqueantes" />
+
+### Estrutura Servidor e Sockets Não-bloqueantes
+
+Apesar das simplificações indicadas na seção anterior, ainda há algumas preocupações necessárias na implementação do servidor TPLAY. Considerando que o servidor esta exibindo as linhas de um arquivo, no seu laço principal o servidor deveria:
+
+1. Exibir uma linha do arquivo
+2. Esperar um intervalo de tempo
+3. Ler uma *possível* mensagem da rede
+4. Voltar a (1)
+
+Entretanto, ocorre que a leitura de mensagens do socket (primitiva `recv`) bloqueia a chamada até que chegue alguma mensagem. Então, se o cliente não enviasse nenhuma mensagem para o servidor, ele ficaria bloqueado no passo (3) e não continuaria a exibição das linhas do arquivo. Isso não funciona, como você deve imaginar, e é necessário uma chamada não-bloqueante da leitura de sockets. Eu explico como isso funciona no video abaixo.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LAj6RyRC5w4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Idealmente, um código deveria fazer isso de threads para gerenciar esse controle, mas, conforme mencionado, isso não será exigido nessa atividade. Eu tão sugiro que você não tente introduzir threads, pois não é o objetivo desse laboratório e há várias sutilezas/problemas com que seu código terá que lidar.
+
+
 
 <p id="Feedback" />
 
