@@ -144,7 +144,11 @@ Apesar das simplificações indicadas na seção anterior, ainda há algumas pre
 
 Entretanto, ocorre que a leitura de mensagens do socket (primitiva `recv`) bloqueia a chamada até que chegue alguma mensagem. Então, se o cliente não enviasse nenhuma mensagem para o servidor, ele ficaria bloqueado no passo (3) e não continuaria a exibição das linhas do arquivo. Isso não funciona, como você deve imaginar, e é necessário uma chamada não-bloqueante da leitura de sockets. Eu explico como isso funciona no video abaixo.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LAj6RyRC5w4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Chamadas não-bloqueantes em sockets com Python](images/youtube-chamada-naobloqueante.png)](https://youtu.be/LAj6RyRC5w4)
+
+<!-- <img src="images/youtube-chamada-naobloqueante.png" /> -->
+<!-- <frame width="560" height="315" src="https://www.youtube.com/embed/LAj6RyRC5w4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
 
 Idealmente, um código deveria fazer isso de threads para gerenciar esse controle, mas, conforme mencionado, isso não será exigido nessa atividade. Eu tão sugiro que você não tente introduzir threads, pois não é o objetivo desse laboratório e há várias sutilezas/problemas com que seu código terá que lidar.
 
