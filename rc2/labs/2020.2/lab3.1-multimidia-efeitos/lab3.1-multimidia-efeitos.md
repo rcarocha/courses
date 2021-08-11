@@ -60,9 +60,9 @@ Ao realizar os experimentos:
 
         sudo apt-get install vlc-nox
         
-3. 🚩 (acréscimo em 11/agosto) O Firefox não permite que você o execute como root (que é o que ocorrerá em `h1`), sem uma configuração adicional. Acredito que o mais fácil será você utilizar o Chrome (na verdade, o Chromium), utilizando a opção `--no-sandbox` como no comando abaixo
+3. 🚩 (acréscimo em 11/agosto) O Firefox não permite que você o execute como root (que é o que ocorrerá em `h1`), sem uma configuração adicional. Para executar o Firefox utilize o comando abaixo dentro de uma estação como `h1` (sugestão do Matheus Rondon):
 
-        chromium-browser --no-sandbox
+        sudo -u mininet firefox
    
 <a id="mininet-config" />
 
