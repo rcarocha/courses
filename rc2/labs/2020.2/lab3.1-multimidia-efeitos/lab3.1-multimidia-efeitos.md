@@ -98,9 +98,29 @@ Duas preocupações adicionais você precisará para configurar a execução do 
 
 O MTR é uma ferramenta similar ao traceroute, mas com muito mais flexibilidade e poder na coleta dos dados de comunicação. Basicamente, você precisa indicar o endereço do destino como parâmetro e ele mostrará a rota estimada para o destino e diversas medições de atraso em cada roteador no caminho. Neste experimento, só nos interessará os dados coletados no destino. Utilizaremos o MTR para estimar o jitter, passando o parâmetro `-o` e os campos que queremos que sejam exibidos, como no seguinte exemplo (que você pode usar no experimento, alterando o endereço): 
 
-        mtr -o NBAWJMXI 8.8.8.8
+        mtr -o NBAWJMXI 8.8.8.8 -n
 
 A figura abaixo mostra o exemplo de saída do MTR para o comando indicado. No caso mecionado, solicitamos ao MTR para exibir na sequência as medições de **último**, **melhor**, **médio** e **pior** atrasos, seguido de **último**, **médio** e **pior** jitter, terminando com jitter **interchegada** de pacotes. Atrasos são sempre o RTT e em ms.
+
+🚩 (acréscimo em 12/agosto) A versão do `mtr` disponível em algumas VMs do mininet causam alguns problemas na execução. Para você conseguir fazer os testes, baixe uma versão mais nova do `mtr`. Deixei uma versão para vocês instalarem usando os seguintes comandos:
+
+        cd ~
+        wget rcarocha.github.io/rc2/software/mtr-0.89.zip
+        unzip mtr-0.89.zip
+
+É importante não esquecer da primeira linha, pois ela copiará os arquivos para o diretório raiz do usuário mininet. Feito isso, quando for executar, faça o seguinte:
+
+        ~/mtr -o NBAWJMXI 8.8.8.8 -n
+        
+Observe com atenção o uso do **`~/mtr`** (til-barra-mtr) e, sugiro, usar a opção `-n` no final. Você deverá executar como admin, mas isso não será problema dentro do mininet. Caso apareça o erros
+
+        Failure to open IPv4 sockets: Operation not permitted
+        Failure to open IPv6 sockets: Address family not supported by protocol
+        /home/mininet/mtr: Failure to start mtr-packet: Invalid argument
+        
+Execute como admin
+
+        sudo ~/mtr -o NBAWJMXI 8.8.8.8 -n
 
 <img src="figuras/mtr-para-8.8.8.8.png" />
 
