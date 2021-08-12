@@ -102,6 +102,9 @@ O MTR é uma ferramenta similar ao traceroute, mas com muito mais flexibilidade 
 
 A figura abaixo mostra o exemplo de saída do MTR para o comando indicado. No caso mecionado, solicitamos ao MTR para exibir na sequência as medições de **último**, **melhor**, **médio** e **pior** atrasos, seguido de **último**, **médio** e **pior** jitter, terminando com jitter **interchegada** de pacotes. Atrasos são sempre o RTT e em ms.
 
+
+<a id="atualizacao-mtr" />
+
 🚩 (acréscimo em 12/agosto) A versão do `mtr` disponível em algumas VMs do mininet causam alguns problemas na execução. Para você conseguir fazer os testes, baixe uma versão mais nova do `mtr`. Deixei uma versão para vocês instalarem usando os seguintes comandos:
 
         cd ~
