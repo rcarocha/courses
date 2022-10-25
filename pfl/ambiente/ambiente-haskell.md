@@ -38,7 +38,7 @@ As escolhas para para um desses elementos (e alternativas) estão na tabela abai
   * [Stack](https://docs.haskellstack.org/)
 * IDE ou editor de código Haskell 
   * [Atom](https://atom.io)
-  * [Eclipse (com Plugin Haskell)](https://wiki.haskell.org/IDEs#Open_Source), Visual Studio ou (Leksah)[https://wiki.haskell.org/IDEs#Leksah]. Qualquer editor de texto será o suficiente para esta disciplina.
+  * [Eclipse (com Plugin Haskell)](https://wiki.haskell.org/IDEs#Open_Source), Visual Studio ou [Leksah](https://wiki.haskell.org/IDEs#Leksah). Qualquer editor de texto será o suficiente para esta disciplina.
 
 O restante deste texto, descreve brevemente a instalação usando as escolhas indicadas acima. Exceto pelo ambiente Haskell, elas são opcionais e dependem da sua preferência. 
 
@@ -94,7 +94,7 @@ Git é um sistema de gerenciamento de versões de código (e arquivos) amplament
 
 * [Git/GitHub/Cliente Git](https://git-scm.com/download/gui/windows)
 
-Utilize aquele em que ficar mais confortável. No laboratório, instalado o [https://desktop.github.com/](Github Desktop) que é um cliente **para o Github**, ou seja, ele **não deve funcionar** com outro servidor Git, como [gitlab](https://www.gitlab.com) ou [BitBucket](https://www.bitbucket.org). Trata-se de uma conveniência para aprendermos mais facilmente o uso do Git Classroom.
+Utilize aquele em que ficar mais confortável. No laboratório, instalado o [Github Desktop](https://desktop.github.com/) que é um cliente **para o Github**, ou seja, ele **não deve funcionar** com outro servidor Git, como [gitlab](https://www.gitlab.com) ou [BitBucket](https://www.bitbucket.org). Trata-se de uma conveniência para aprendermos mais facilmente o uso do Git Classroom.
 
 Entretanto, o Atom **já possui um cliente Git** muito amigável.
 
