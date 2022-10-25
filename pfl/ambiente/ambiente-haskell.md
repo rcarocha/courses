@@ -1,6 +1,6 @@
 # Ambiente de Programação para Haskell
 
-A descrição de todos os softwares utilizados, bom como detalhes de instalação, [está descrita aqui](softwares.html). **Leitura obrigatória!** Todos devem ter o ambiente ali descrito - ou uma variação equivalente - para realizar todas as tarefas da disciplina.
+Esta página detalha todos os softwares utilizados (ou sugeridos), bom como detalhes de instalação. **Leitura obrigatória!** Todos devem ter o ambiente ali descrito - ou uma variação equivalente - para realizar todas as tarefas da disciplina.
 
 Mais à frente, passaremos a usar projetos Haskell gerenciados pela ferramenta `stack`.
 
