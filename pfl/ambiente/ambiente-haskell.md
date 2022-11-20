@@ -4,7 +4,7 @@ Esta página detalha todos os softwares utilizados (ou sugeridos), bom como deta
 
 Mais à frente, passaremos a usar projetos Haskell gerenciados pela ferramenta `stack`.
 
-* [Gerenciamento de projetos Haskell com stack](labs/projeto.stack.html)
+* [Gerenciamento de projetos Haskell com stack](projeto-stack.md)
 
 Alternativamente, e na falta de ambiente funcional no laboratório (ou em casa) usaremos o `repl.it`.
 
